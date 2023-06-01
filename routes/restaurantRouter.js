@@ -3,7 +3,7 @@ const restaurantRouter = express.Router()
 const { orderModel } = require('../model/orderModel')
 const { restaurantModel } = require('../model/restaurant')
 
-restaurantRouter.post("/resturant/register", async (req, res) => {
+restaurantRouter.post("/resturant", async (req, res) => {
     try {
         console.log(req.body);
         let restData = new restaurantModel(req.body);
