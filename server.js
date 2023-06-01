@@ -11,7 +11,7 @@ const app = express()
 app.use(express.json())
 
 app.get('/', async (req, res) => {
-    res.send('Welcome')
+    res.send('Welcome To Food Delivery app')
 })
 
 app.use('/api', userRouter)
