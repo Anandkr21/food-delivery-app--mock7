@@ -3,7 +3,7 @@ const restaurantRouter = express.Router()
 const { orderModel } = require('../model/orderModel')
 const { restaurantModel } = require('../model/restaurant')
 
-restaurantRouter.post("/api/resturant/register", async (req, res) => {
+restaurantRouter.post("/resturant/register", async (req, res) => {
     try {
         console.log(req.body);
         let restData = new restaurantModel(req.body);
@@ -16,7 +16,7 @@ restaurantRouter.post("/api/resturant/register", async (req, res) => {
 });
 
 
-restaurantRouter.get("/api/restaurants", async (req, res) => {
+restaurantRouter.get("/restaurants", async (req, res) => {
     try {
         let restData = await restaurantModel.find();
         res.status(200).send(restData)
@@ -25,7 +25,7 @@ restaurantRouter.get("/api/restaurants", async (req, res) => {
         res.status(501).send({ "msg": error })
     }
 });
-restaurantRouter.get("/api/restaurants/:id", async (req, res) => {
+restaurantRouter.get("/restaurants/:id", async (req, res) => {
     try {
         let id = req.params.id
         let restData = await restaurantModel.findById({ _id: id });
@@ -36,7 +36,7 @@ restaurantRouter.get("/api/restaurants/:id", async (req, res) => {
     }
 });
 
-restaurantRouter.get("/api/restaurants/:id/menu", async (req, res) => {
+restaurantRouter.get("/restaurants/:id/menu", async (req, res) => {
     try {
         let id = req.params.id
         let restData = await restaurantModel.findById({ _id: id });
@@ -48,7 +48,7 @@ restaurantRouter.get("/api/restaurants/:id/menu", async (req, res) => {
         res.status(501).send({ "msg": error })
     }
 });
-restaurantRouter.patch("/api/restaurants/:id/menu", async (req, res) => {
+restaurantRouter.patch("/restaurants/:id/menu", async (req, res) => {
     try {
         let id = req.params.id;
         let newMenu = req.body;
@@ -63,7 +63,7 @@ restaurantRouter.patch("/api/restaurants/:id/menu", async (req, res) => {
         res.status(501).send({ "msg": error })
     }
 });
-restaurantRouter.delete("/api/restaurants/:id/menu/:mid", async (req, res) => {
+restaurantRouter.delete("/restaurants/:id/menu/:mid", async (req, res) => {
     try {
         let { id, mid } = req.params;
         console.log(req.params);
@@ -84,7 +84,7 @@ restaurantRouter.delete("/api/restaurants/:id/menu/:mid", async (req, res) => {
     }
 });
 
-restaurantRouter.post("/api/orders", async (req, res) => {
+restaurantRouter.post("/orders", async (req, res) => {
     try {
         let { ordername, quantity, userid, address } = req.body;
         let resturantData = await restaurantModel.find();
