@@ -1,30 +1,33 @@
-const express = require('express')
-const { connection } = require('./config/db')
-const { userRouter } = require('./routes/userRouter')
-const { restaurantRouter } = require('./routes/restaurantRouter')
-const { orderRouter } = require('./routes/orderRouter')
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const { connection } = require('./configs/connection');
+const { userRoute } = require('./route/user.route');
+const { restaurantRouter } = require('./route/restaurant.route');
+const { orderRoute } = require('./route/order.route');
 
-require('dotenv').config()
-const Port = process.env.port;
+const PORT = process.env.port || 8080;
 
-const app = express()
-app.use(express.json())
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
 
 app.get('/', async (req, res) => {
     res.send('Welcome To Food Delivery app')
 })
 
-app.use('/api', userRouter)
-app.use('/api', restaurantRouter)
-app.use('/api', orderRouter)
+app.use('/api', userRoute);
+app.use('/api', restaurantRouter);
+app.use('/api', orderRoute);
 
-
-app.listen(Port, async () => {
+app.listen(PORT, async () => {
     try {
         await connection;
-        console.log('Connected to DB');
-    } catch (error) {
-        console.log('Something Error');
+        console.log('Server is connected to the Database');
+    } catch {
+        console.log('Server could not connect to the Database.')
     }
-    console.log(`Server is running at http://localhost:${Port}`);
+    console.log(`Server is running at the port : ${PORT}`);
 })

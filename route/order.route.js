@@ -1,18 +1,19 @@
-const express = require("express")
-const orderRouter = express.Router()
-const { orderModel } = require('../model/orderModel');
+const express = require('express');
+const { OrderModel } = require('../model/order.model');
+const { authentication } = require('../middleware/authentication.middleware');
 
+const orderRoute = express.Router();
 
-orderRouter.post('/orders', async (req, res) => {
+// Orders posting
+orderRoute.post('/orders', authentication, async (req, res) => {
     try {
         const { user, restaurant, items, totalPrice, deliveryAddress, status } = req.body;
-        const newOrder = new orderModel({
-            user, restaurant, items, totalPrice, deliveryAddress, status
-        });
+        const newOrder = new OrderModel({ user, restaurant, items, totalPrice, deliveryAddress, status });
         await newOrder.save()
         res.status(201).send({
             status: true,
-            msg: "Your Order has been Placed."
+            msg: "Your Order has been Placed.",
+            data: newOrder
         })
     } catch {
         res.status(404).send({
@@ -21,12 +22,11 @@ orderRouter.post('/orders', async (req, res) => {
         })
     }
 })
-
-
-orderRouter.get('/orders/:id', async (req, res) => {
+// getting orders by id
+orderRoute.get('/orders/:id', authentication, async (req, res) => {
     try {
         const id = req.params.id
-        const data = await orderModel.find({ _id: id });
+        const data = await OrderModel.find({ _id: id });
         res.status(200).send({
             status: true,
             msg: `Order Details with the ID : ${id}`,
@@ -40,10 +40,11 @@ orderRouter.get('/orders/:id', async (req, res) => {
     }
 })
 
-orderRouter.get('/order/:id', async (req, res) => {
+// getting all order
+orderRoute.get('/orders', authentication, async (req, res) => {
     try {
         const id = req.params.id
-        const data = await orderModel.find({ user: id });
+        const data = await OrderModel.find({ user: id });
         res.status(200).send({
             status: true,
             msg: `All the Order Details`,
@@ -57,11 +58,12 @@ orderRouter.get('/order/:id', async (req, res) => {
     }
 })
 
-orderRouter.patch('/orders/:id', async (req, res) => {
+// updating orders by their id
+orderRoute.patch('/orders/:id', authentication, async (req, res) => {
     try {
         const id = req.params.id;
         const data = req.body;
-        await orderModel.findByIdAndUpdate({ _id: id }, data);
+        await OrderModel.findByIdAndUpdate({ _id: id }, data);
         res.status(200).send({
             status: true,
             msg: "Your Order has been Updated!"
@@ -74,4 +76,5 @@ orderRouter.patch('/orders/:id', async (req, res) => {
     }
 })
 
-module.exports = { orderRouter }
+module.exports = { orderRoute };
+
