@@ -1,116 +1,110 @@
-# FOOD-DELIVERY-APP
+# Food Delivery App Backend
 
-To get started with the Food-Delivery-App API, follow the instructions below.
+## Instructions:
 
-## Prerequisites
-
-- Node.js (v16 or above)
-- MongoDB
-
-### Installation
-
-- **Clone the repository**: `git clone`
-
-### Set up the environment variables:
-
-**Create a .env file in the root directory and configure the following variables:**
-
-- mongoUrl
-- port
-- secret_key
-
-### Starting the Server
-
-- **Run the following command to start the server**: `npm run server`
-
-# API Endpoints
+- Read the entire question carefully for at least 15 mins, understand it and then code it.
+- Commit your code every 30min with a proper commit message to your repository (we will monitor every commit)
+- Use **Node, Express, Mongo (NEM)** for backend.
 
 ---
 
-1. **User Registration**
+## Problem Statement
 
-- **Endpoint:** `POST` **/api/register**
-- **Description**: **This route will help in the registration of the new user.**
-- **Response:** **With 200 status code with message User Successfully Registered.**
+The task is to create backend for a Food Delivery app that allows users to order food from their favourite restaurants.
+
+## Instructions:
+
+The system should be built using Node.js, Express.js, and MongoDB (NEM) as the backend stack.
+
+- The backend should have the following models:
+
+- **User Model**
+
+```yaml
+{
+  _id: ObjectId,
+  name: String,
+  email: String,
+  password: String,
+  address: {
+    street: String,
+    city: String,
+    state: String,
+    country: String,
+    zip: String
+  }
+}
+```
+
+- **Restaurant Model**
+
+```yaml
+{
+  _id: ObjectId,
+  name: String,
+  address: {
+    street: String,
+    city: String,
+    state: String,
+    country: String,
+    zip: String
+  },
+  menu: [{
+    _id: ObjectId,
+    name: String,
+    description: String,
+    price: Number,
+    image: String
+  }]
+}
+
+```
+
+- **Order Model**
+
+```yaml
+{
+	 _id: ObjectId,
+	 user : { type: ObjectId, ref: 'User' },
+	 restaurant : { type: ObjectId, ref: 'Restaurant' },
+   items: [{
+     name: String,
+     price: Number,
+     quantity: Number
+   }],
+   totalPrice: Number,
+   deliveryAddress: {
+     street: String,
+     city: String,
+     state: String,
+     country: String,
+     zip: String
+   },
+   status: String // e.g, "placed", "preparing", "on the way", "delivered"
+}
+```
+
+The following API routes should be developed to achieve the required functionality:
+
+| METHOD | ENDPOINT | DESCRIPTION | STATUS CODE |
+| --- | --- | --- | --- |
+| POST | /api/register | This endpoint should allow users to register. Hash the password on store. | 201 |
+| POST | /api/login | This endpoint should allow users to login. Return JWT token on login. | 201 |
+| PUT / PATCH | /api/user/:id/reset | This endpoint should allow users to reset the password identified by user id, providing the current password and new password in the body. | 204 |
+| GET | /api/restaurants | This endpoint should return a list of all available restaurants. | 200 |
+| GET | /api/restaurants/:id | This endpoint should return the details of a specific restaurant identified by its ID. | 200 |
+| GET | /api/restaurants/:id/menu | This endpoint should return the menu of a specific restaurant identified by its ID. | 200 |
+| POST / PUT | /api/restaurants/:id/menu | This endpoint should allow the user to add a new item to a specific restaurants menu identified by it id. | 201 |
+| DELETE | /api/restaurants/:id/menu/:id | This endpoint should allow the user to delete a particular menu item identified by its id from a specific restaurant. | 202 |
+| POST | /api/orders | This endpoint should allow the user to place an order. | 201 |
+| GET | /api/orders/:id | This endpoint should return the details of a specific order identified by its ID. | 200 |
+| PUT / PATCH | /api/orders/:id | This endpoint should allow users to update the status of a specific order identified by its ID. | 204 |
 
 ---
 
-2. **User logging**
+**Important Note :**
 
-- **Endpoint:** `POST` **/api/login**
-- **Description:** **This route will be used for the logging of the user.**
-- **Response:** **With 200 status code it will generate a token.**
-
----
-
-3. **Reset Password**
-
-- **Endpoint:** `PATCH` **/api/user/:id/reset**
-- **Description:** **This route will be used for the reset of the password.**
-- **Response:** **With 200 status code with a message Password has been updated.**
-
----
-
-4. **Check All Restaurants**
-
-- **Endpoint:** `GET` **/api/restaurants**
-- **Description**: **This route will help to get the data of all the restaurants available.**
-- **Response:** **With 200 status code it will provide all the data.**
-
----
-
-5. **Get a particular Restaurant**
-
-- **Endpoint:** `GET` **/api/restaurants/:id**
-- **Description**: **This route will help to get the data of the specific restaurant.**
-- **Response:** **With 200 status code it will provide the data of the specific restaurant.**
-
----
-
-6. **Add new Restaurants**
-
-- **Endpoint:** `POST` **/api/restaurants**
-- **Description**: **This route will help in adding the new Restaurant.**
-- **Response:** **With 200 status code with message Your restaurant has been added.**
-
----
-
-7. **Add new items to the Menu of the Restaurants**
-
-- **Endpoint:** `POST` **/api/restaurants/:id/menu**
-- **Description**: **This route will help in adding menu to the specific restaurant.**
-- **Response:** **With 200 status code with message Your Menu has been Updated.**
-
----
-
-8. **Deleting the items form the Menu of the Restaurants**
-
-- **Endpoint:** `DELETE` **/api//restaurants/:id/menu/:id**
-- **Description**: **This route will help in deleting the specific items from the menu of the specific restaurant.**
-- **Response:** **With 202 status code with message Your Item with that particular ID has been deleted.**
-
----
-
-9. **Placing Orders**
-
-- **Endpoint:** `POST`**/api/orders**
-- **Description:** **This route is a protected route so the user has to login first and it will help to place order to the restaurants.**
-- **Response:** **With 200 status code with the message Your Order has been placed and the particular Order will also be displayed.**
-
----
-
-10. **Checking the particular Order**
-
-- **Endpoint:** `GET` **/api/orders/:id**
-- **Description:** **This route is a protected route so the user has to login first and it will give the data of the particular order.**
-- **Response** **With 200 status with the message Order with Specific ID and the data of the specific id.**
-
----
-
-11. **Updating the particular Order**
-
-- **Endpoint:** `PATCH` **/api/orders/:id**
-- **Description:** **This route is a protected route so the user has to login first and it will be used to update the particular order.**
-- **Response** **With 200 status with the message Your Order has been Updated.**
-
----
+- **Write proper documentation for your API’s clearly specifying what should be the body of your POST API’s, what are the different response API will return. (On your GitHub Readme).**
+- **Use Swagger or Postman documentation to make proper documentation. (Bonus)**
+- **Make a video demonstrating that all the API endpoints are working correctly and giving right expected output. Use Postman or ThunderClient to demonstrate this.**
+- **Make sure the video is demonstrating working of all the endpoints clearly in detail, failing to do so may after your scores.**
