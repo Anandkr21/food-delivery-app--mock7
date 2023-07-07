@@ -102,9 +102,4 @@ The following API routes should be developed to achieve the required functionali
 
 ---
 
-**Important Note :**
 
-- **Write proper documentation for your API’s clearly specifying what should be the body of your POST API’s, what are the different response API will return. (On your GitHub Readme).**
-- **Use Swagger or Postman documentation to make proper documentation. (Bonus)**
-- **Make a video demonstrating that all the API endpoints are working correctly and giving right expected output. Use Postman or ThunderClient to demonstrate this.**
-- **Make sure the video is demonstrating working of all the endpoints clearly in detail, failing to do so may after your scores.**
